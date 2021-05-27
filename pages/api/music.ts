@@ -10,7 +10,6 @@ export type MusicData = {
     }
 }
 
-
 export const getData = async (): Promise<MusicData> => {
 // TODO: https://www.last.fm/api/show/user.getTopArtists
   // this data is paginated.

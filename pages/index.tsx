@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import Head from 'next/head';
-import { UnorderedList, ListItem, Container, Flex, Button, Heading } from '@chakra-ui/react';
+import {
+  UnorderedList, ListItem, Container, Flex, Button, Heading,
+} from '@chakra-ui/react';
 import { SpotifyData, Track } from './api/spotify';
 import { SpotifyLogin } from '../features/spotify-login';
 

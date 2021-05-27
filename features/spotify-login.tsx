@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Link, Box } from '@chakra-ui/react';
 
 interface Props {
   onLogin: (accessToken: string) => void;
@@ -25,7 +26,7 @@ const generateSpotifyUrl = () => {
   const params = new URLSearchParams({
     client_id: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID || '',
     response_type: 'token',
-    redirect_uri: 'http://localhost:3000/test',
+    redirect_uri: 'http://localhost:3000/',
     scope: 'user-top-read user-read-private user-read-email',
   });
   return `https://accounts.spotify.com/authorize?${params.toString()}`;
@@ -49,9 +50,9 @@ const SpotifyLogin = (props: Props) => {
   }, []);
 
   return (
-    <div>
-      <a href={generateSpotifyUrl()}>Log in with spotify</a>
-    </div>
+    <Box>
+      <Link href={generateSpotifyUrl()}>Log in with spotify</Link>
+    </Box>
   );
 };
 

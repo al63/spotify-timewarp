@@ -26,6 +26,10 @@ const Test = () => {
         <title>test page</title>
         <meta name="description" content="text page" />
       </Head>
+      <h1>I make Spotify playlists for you based on your recent listening history.</h1>
+      <button type="button">Make a playlist of my top songs</button>
+      <button type="button">Make a playlist of recommendations</button>
+
       {displayName ? (
         <>
           <h1>

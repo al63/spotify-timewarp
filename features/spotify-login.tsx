@@ -49,7 +49,9 @@ const SpotifyLogin = (props: Props) => {
   }, []);
 
   return (
-    <a href={generateSpotifyUrl()}>Log in with spotify</a>
+    <div>
+      <a href={generateSpotifyUrl()}>Log in with spotify</a>
+    </div>
   );
 };
 

@@ -18,7 +18,7 @@ const Index = () => {
   };
 
   const tracksList = tracks?.map((track) => (
-    <ListItem id={track.id}>
+    <ListItem key={track.id}>
       {track.song.name}
     </ListItem>
   ));

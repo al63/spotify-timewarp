@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Link, Box } from '@chakra-ui/react';
+import { CSR } from './csr';
 
 interface Props {
   onLogin: (accessToken: string) => void;
@@ -23,10 +24,11 @@ const isSpotifyhashErrorParams = (params: SpotifyHashParams): params is SpotifyH
 
 const generateSpotifyUrl = () => {
   // TODO: probably should add a state var
+
   const params = new URLSearchParams({
     client_id: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID || '',
     response_type: 'token',
-    redirect_uri: 'http://localhost:3000/',
+    redirect_uri: window.location.href.split('?')[0],
     scope: 'user-top-read user-read-private user-read-email',
   });
   return `https://accounts.spotify.com/authorize?${params.toString()}`;
@@ -51,7 +53,7 @@ const SpotifyLogin = (props: Props) => {
 
   return (
     <Box>
-      <Link href={generateSpotifyUrl()}>Log in with spotify</Link>
+      <CSR onClient={() => <Link href={generateSpotifyUrl()}>Log in with spotify</Link>} />
     </Box>
   );
 };

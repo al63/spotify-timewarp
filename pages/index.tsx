@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import {
-  UnorderedList, ListItem, Container, Flex, Button, Heading, Link,
+  UnorderedList, ListItem, Container, Flex, Button, Heading,
 } from '@chakra-ui/react';
 import { SpotifyData, Track } from './api/spotify';
-import { useSpotifyLogin } from '../features/use-spotify-login';
+import { SpotifyLogin } from '../features/spotify-login';
 import { useSpotifyContext } from '../features/spotify-context';
 
 const Index = () => {
   const [tracks, setTracks] = useState<Track[] | null>(null);
   const [displayName, setDisplayName] = useState<string>('');
-  const loginUrl = useSpotifyLogin();
   const { accessToken } = useSpotifyContext();
 
   useEffect(() => {
@@ -32,7 +31,7 @@ const Index = () => {
   ));
 
   let content = null;
-  if (displayName) {
+  if (accessToken) {
     content = (
       <>
         <Heading as="h1" size="l">
@@ -45,8 +44,8 @@ const Index = () => {
         </UnorderedList>
       </>
     );
-  } else if (!accessToken && loginUrl) {
-    content = <Link href={loginUrl}>Log in with spotify</Link>;
+  } else {
+    content = <SpotifyLogin />;
   }
 
   return (

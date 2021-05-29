@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Link } from '@chakra-ui/react';
 import { useSpotifyContext } from './spotify-context';
 
 /* eslint-disable camelcase */
@@ -32,7 +33,7 @@ const generateSpotifyUrl = () => {
   return `https://accounts.spotify.com/authorize?${params.toString()}`;
 };
 
-export const useSpotifyLogin = () => {
+export const SpotifyLogin = () => {
   const context = useSpotifyContext();
   useEffect(() => {
     if (window.location.hash) {
@@ -50,5 +51,6 @@ export const useSpotifyLogin = () => {
     }
   }, []);
 
-  return generateSpotifyUrl();
+  const url = generateSpotifyUrl();
+  return (url ? <Link href={url}>Log in with spotify</Link> : null);
 };

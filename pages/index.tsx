@@ -5,7 +5,6 @@ import {
 } from '@chakra-ui/react';
 import { SpotifyData, Track } from './api/spotify';
 import { useSpotifyLogin } from '../features/use-spotify-login';
-import { CSR } from '../features/csr';
 import { useSpotifyContext } from '../features/spotify-context';
 
 const Index = () => {
@@ -47,7 +46,7 @@ const Index = () => {
       </>
     );
   } else if (!accessToken && loginUrl) {
-    content = <CSR onClient={() => <Link href={loginUrl}>Log in with spotify</Link>} />;
+    content = <Link href={loginUrl}>Log in with spotify</Link>;
   }
 
   return (

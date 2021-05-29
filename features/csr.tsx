@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 interface Props {
-    onClient: () => void;
+  onClient: () => void;
 }
 
 const CSR = (props: Props) => {

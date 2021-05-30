@@ -1,4 +1,4 @@
-A for fun app that (will) generate Spotify playlists for you based on your listening history to share. Mostly an excuse to mess around with Next.js.
+A for fun app that generates Spotify playlists for you based on your listening history to share. Intentionally overengineered and an excuse to mess around with Next.js.
 
 ## Getting Started
 

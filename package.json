@@ -6,8 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ./ --ext js,jsx,ts,tsx",
-    "lint:fix": "eslint ./ --fix --ext js,jsx,ts,tsx"
+    "lint": "prettier --check . && eslint ./ --ext js,jsx,ts,tsx",
+    "lint:fix": "prettier --write . && eslint ./ --fix --ext js,jsx,ts,tsx"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.6.3",

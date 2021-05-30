@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import {
-  UnorderedList, ListItem, Container, Flex, Button, Heading,
+  Container, Flex, Heading,
 } from '@chakra-ui/react';
-import { SpotifyData, Track } from './api/spotify';
+import { SpotifyUser, SpotifyData, Track } from './api/spotify';
 import { SpotifyLogin } from '../features/spotify-login';
 import { useSpotifyContext } from '../features/spotify-context';
+import { TrackList } from '../features/track-list';
+import { CreatePlaylistButton } from '../features/create-playlist';
 
 const Index = () => {
   const [tracks, setTracks] = useState<Track[] | null>(null);
-  const [displayName, setDisplayName] = useState<string>('');
+  const [user, setUser] = useState<SpotifyUser | null>(null);
   const { accessToken } = useSpotifyContext();
 
   useEffect(() => {
@@ -19,29 +21,28 @@ const Index = () => {
     (async () => {
       const res = await fetch(`/api/spotify?token=${accessToken}`);
       const json = await res.json() as SpotifyData;
-      setDisplayName(json.user.display_name);
+      setUser(json.user);
       setTracks(json.tracks);
     })();
   }, [accessToken]);
-
-  const tracksList = tracks?.map((track) => (
-    <ListItem key={track.id}>
-      {track.song.name}
-    </ListItem>
-  ));
 
   let content = null;
   if (accessToken) {
     content = (
       <>
-        <Heading as="h1" size="l">
+        <Heading as="h1" size="lg" mb="2">
           Logged in as
           {' '}
-          {displayName}
+          {user?.display_name}
         </Heading>
-        <UnorderedList>
-          {tracksList}
-        </UnorderedList>
+        <Heading size="sm">Your top songs for the past four weeks:</Heading>
+        {tracks
+          && (
+          <>
+            <TrackList tracks={tracks} />
+            <CreatePlaylistButton tracks={tracks} userId={user?.id} />
+          </>
+          )}
       </>
     );
   } else {
@@ -58,10 +59,6 @@ const Index = () => {
       <Container maxW="container.xl">
         <Flex direction="column" align="center">
           <Heading as="h1" size="xl" textAlign="center">I make Spotify playlists based on your recent listening history. Spotify Wrapped, but for the past month.</Heading>
-          <Flex>
-            <Button m="2">Make a playlist of my top songs</Button>
-            <Button m="2">Make a playlist of recommendations</Button>
-          </Flex>
         </Flex>
         {content}
       </Container>

@@ -6,7 +6,9 @@ interface SpotifyExternalUrls {
 }
 
 interface SpotifyArtist {
+  id: string,
   name: string
+  uri: string,
   external_urls: SpotifyExternalUrls
 }
 
@@ -28,13 +30,15 @@ interface SpotifyTrack {
   artists: SpotifyArtist[]
   name: string
   external_urls: SpotifyExternalUrls
+  uri: string;
 }
 
 interface SpotifyTracksResponse {
   items: SpotifyTrack[]
 }
 
-interface SpotifyUserResponse {
+export interface SpotifyUser {
+  id: string;
   display_name: string;
   images: SpotifyImage[]
 }
@@ -43,11 +47,14 @@ interface SpotifyUserResponse {
 export interface Track {
   id: string,
   artists: {
+    id: string,
     name: string,
     url: string,
+    uri: string,
   }[],
   song: {
     url: string,
+    uri: string,
     name: string
   },
   album: {
@@ -57,11 +64,11 @@ export interface Track {
 }
 
 export interface SpotifyData {
-  user: SpotifyUserResponse,
+  user: SpotifyUser,
   tracks: Track[]
 }
 
-const getUserInfo = async (accessToken: string): Promise<SpotifyUserResponse> => {
+const getUserInfo = async (accessToken: string): Promise<SpotifyUser> => {
   const res = await fetch('https://api.spotify.com/v1/me', {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -83,11 +90,14 @@ const getTracks = async (accessToken: string, limit: number): Promise<Track[]> =
   return json.items.map((item) => ({
     id: item.id,
     artists: item.artists.map((artist) => ({
+      id: artist.id,
       name: artist.name,
       url: artist.external_urls.spotify,
+      uri: artist.uri,
     })),
     song: {
       url: item.external_urls.spotify,
+      uri: item.uri,
       name: item.name,
     },
     album: {

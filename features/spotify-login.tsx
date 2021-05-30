@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Link } from '@chakra-ui/react';
 import { useSpotifyContext } from './spotify-context';
+import { CSR } from './csr';
 
 /* eslint-disable camelcase */
 interface SpotifyHashSuccessParams {
@@ -19,16 +20,12 @@ type SpotifyHashParams = SpotifyHashSuccessParams | SpotifyHashErrorParams;
 const isSpotifyhashErrorParams = (params: SpotifyHashParams): params is SpotifyHashErrorParams => (params as SpotifyHashErrorParams).error !== undefined;
 
 const generateSpotifyUrl = () => {
-  if (typeof window === 'undefined') {
-    return null;
-  }
-
   // TODO: probably should add a state var
   const params = new URLSearchParams({
     client_id: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID || '',
     response_type: 'token',
     redirect_uri: window.location.href.split('?')[0],
-    scope: 'user-top-read user-read-private user-read-email',
+    scope: 'user-top-read user-read-private user-read-email playlist-modify-public playlist-modify-private',
   });
   return `https://accounts.spotify.com/authorize?${params.toString()}`;
 };
@@ -51,6 +48,7 @@ export const SpotifyLogin = () => {
     }
   }, []);
 
-  const url = generateSpotifyUrl();
-  return (url ? <Link href={url}>Log in with spotify</Link> : null);
+  return (
+    <CSR onClient={() => <Link href={generateSpotifyUrl()}>Log in with Spotify</Link>} />
+  );
 };

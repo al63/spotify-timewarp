@@ -1,75 +1,75 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from "next";
 
 /* eslint-disable camelcase */
 interface SpotifyExternalUrls {
-  spotify: string
+  spotify: string;
 }
 
 interface SpotifyArtist {
-  id: string,
-  name: string
-  uri: string,
-  external_urls: SpotifyExternalUrls
+  id: string;
+  name: string;
+  uri: string;
+  external_urls: SpotifyExternalUrls;
 }
 
 interface SpotifyImage {
-  height: number,
-  width: number,
-  url: string
+  height: number;
+  width: number;
+  url: string;
 }
 
 interface SpotifyAlbum {
-  name: string
-  external_urls: SpotifyExternalUrls
-  images: SpotifyImage[]
+  name: string;
+  external_urls: SpotifyExternalUrls;
+  images: SpotifyImage[];
 }
 
 interface SpotifyTrack {
-  id: string,
-  album: SpotifyAlbum,
-  artists: SpotifyArtist[]
-  name: string
-  external_urls: SpotifyExternalUrls
+  id: string;
+  album: SpotifyAlbum;
+  artists: SpotifyArtist[];
+  name: string;
+  external_urls: SpotifyExternalUrls;
   uri: string;
 }
 
 interface SpotifyTracksResponse {
-  items: SpotifyTrack[]
+  items: SpotifyTrack[];
 }
 
 export interface SpotifyUser {
   id: string;
   display_name: string;
-  images: SpotifyImage[]
+  images: SpotifyImage[];
 }
 /* eslint-enable camelcase */
 
 export interface Track {
-  id: string,
+  id: string;
   artists: {
-    id: string,
-    name: string,
-    url: string,
-    uri: string,
-  }[],
+    id: string;
+    name: string;
+    url: string;
+    uri: string;
+  }[];
   song: {
-    url: string,
-    uri: string,
-    name: string
-  },
+    url: string;
+    uri: string;
+    name: string;
+  };
   album: {
-    name: string,
-    art: SpotifyImage[]
-  }
+    name: string;
+    art: SpotifyImage[];
+  };
 }
 
 export interface SpotifyData {
-  user: SpotifyUser,
-  tracks: Track[]
+  user: SpotifyUser;
+  tracks: Track[];
 }
 
 const getUserInfo = async (accessToken: string): Promise<SpotifyUser> => {
-  const res = await fetch('https://api.spotify.com/v1/me', {
+  const res = await fetch("https://api.spotify.com/v1/me", {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
@@ -78,13 +78,19 @@ const getUserInfo = async (accessToken: string): Promise<SpotifyUser> => {
   return json;
 };
 
-const getTracks = async (accessToken: string, limit: number): Promise<Track[]> => {
-  const res = await fetch(`https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=${limit}`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-  const json = await res.json() as SpotifyTracksResponse;
+const getTracks = async (
+  accessToken: string,
+  limit: number
+): Promise<Track[]> => {
+  const res = await fetch(
+    `https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=${limit}`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+  const json = (await res.json()) as SpotifyTracksResponse;
 
   // flatten data to something easier for us to use
   return json.items.map((item) => ({
@@ -107,8 +113,11 @@ const getTracks = async (accessToken: string, limit: number): Promise<Track[]> =
   }));
 };
 
-export default async (req: NextApiRequest, res: NextApiResponse<SpotifyData>) => {
-  if (typeof req.query.token !== 'string') {
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse<SpotifyData>
+) => {
+  if (typeof req.query.token !== "string") {
     return res.status(400);
   }
 

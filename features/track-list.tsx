@@ -1,7 +1,7 @@
-import { ReactNode } from "react";
-import { UnorderedList, Link, ListItem } from "@chakra-ui/react";
+import { ReactNode } from 'react';
+import { UnorderedList, Link, ListItem } from '@chakra-ui/react';
 
-import { Track } from "../pages/api/spotify";
+import { Track } from '../pages/api/spotify';
 
 interface Props {
   tracks: Track[] | null;
@@ -22,7 +22,7 @@ const TrackList = (props: Props) => {
         </Link>
       );
       if (idx + 1 !== track.artists.length) {
-        artistsList.push(", ");
+        artistsList.push(', ');
       }
     });
 

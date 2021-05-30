@@ -1,7 +1,7 @@
-import { useEffect } from "react";
-import { Link } from "@chakra-ui/react";
-import { useSpotifyContext } from "./spotify-context";
-import { CSR } from "./csr";
+import { useEffect } from 'react';
+import { Link } from '@chakra-ui/react';
+import { useSpotifyContext } from './spotify-context';
+import { CSR } from './csr';
 
 /* eslint-disable camelcase */
 interface SpotifyHashSuccessParams {
@@ -25,11 +25,11 @@ const isSpotifyhashErrorParams = (
 const generateSpotifyUrl = () => {
   // TODO: probably should add a state var
   const params = new URLSearchParams({
-    client_id: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID || "",
-    response_type: "token",
-    redirect_uri: window.location.href.split("?")[0],
+    client_id: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID || '',
+    response_type: 'token',
+    redirect_uri: window.location.href.split('?')[0],
     scope:
-      "user-top-read user-read-private user-read-email playlist-modify-public playlist-modify-private",
+      'user-top-read user-read-private user-read-email playlist-modify-public playlist-modify-private',
   });
   return `https://accounts.spotify.com/authorize?${params.toString()}`;
 };
@@ -40,16 +40,16 @@ export const SpotifyLogin = () => {
     if (window.location.hash) {
       const params = window.location.hash
         .substring(1)
-        .split("&")
+        .split('&')
         .reduce((prev, cur) => {
-          const split = cur.split("=");
+          const split = cur.split('=');
           return {
             ...prev,
             [split[0]]: split[1],
           };
         }, {}) as SpotifyHashParams;
       if (!isSpotifyhashErrorParams(params)) {
-        window.history.pushState("", document.title, window.location.pathname);
+        window.history.pushState('', document.title, window.location.pathname);
         context.setAccessToken(params.access_token);
       }
     }

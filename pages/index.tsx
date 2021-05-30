@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import Head from "next/head";
-import { Container, Flex, Heading } from "@chakra-ui/react";
-import { SpotifyUser, SpotifyData, Track } from "./api/spotify";
-import { SpotifyLogin } from "../features/spotify-login";
-import { useSpotifyContext } from "../features/spotify-context";
-import { TrackList } from "../features/track-list";
-import { CreatePlaylistButton } from "../features/create-playlist";
+import { useEffect, useState } from 'react';
+import Head from 'next/head';
+import { Container, Flex, Heading } from '@chakra-ui/react';
+import { SpotifyUser, SpotifyData, Track } from './api/spotify';
+import { SpotifyLogin } from '../features/spotify-login';
+import { useSpotifyContext } from '../features/spotify-context';
+import { TrackList } from '../features/track-list';
+import { CreatePlaylistButton } from '../features/create-playlist';
 
 const Index = () => {
   const [tracks, setTracks] = useState<Track[] | null>(null);

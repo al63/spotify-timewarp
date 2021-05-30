@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 /* eslint-disable camelcase */
 interface SpotifyExternalUrls {
@@ -69,7 +69,7 @@ export interface SpotifyData {
 }
 
 const getUserInfo = async (accessToken: string): Promise<SpotifyUser> => {
-  const res = await fetch("https://api.spotify.com/v1/me", {
+  const res = await fetch('https://api.spotify.com/v1/me', {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
@@ -117,7 +117,7 @@ export default async (
   req: NextApiRequest,
   res: NextApiResponse<SpotifyData>
 ) => {
-  if (typeof req.query.token !== "string") {
+  if (typeof req.query.token !== 'string') {
     return res.status(400);
   }
 

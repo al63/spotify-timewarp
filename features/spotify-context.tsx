@@ -1,4 +1,4 @@
-import { FC, createContext, useState, useContext } from "react";
+import { FC, createContext, useState, useContext } from 'react';
 
 interface SpotifyContextValues {
   accessToken: string | null;
@@ -11,7 +11,7 @@ const SpotifyContext = createContext<SpotifyContextValues>({
 });
 
 export const SpotifyProvider: FC = ({ children }) => {
-  const [accessToken, setAccessToken] = useState<string>("");
+  const [accessToken, setAccessToken] = useState<string>('');
   return (
     <SpotifyContext.Provider value={{ accessToken, setAccessToken }}>
       {children}

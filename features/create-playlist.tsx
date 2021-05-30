@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { LinkOverlay, Button } from '@chakra-ui/react';
+import { Link, Button } from '@chakra-ui/react';
 import { Track } from '../pages/api/spotify';
 import { useSpotifyContext } from './spotify-context';
 
@@ -65,6 +65,6 @@ export const CreatePlaylistButton = (props: Props) => {
   };
 
   return playlistCreated
-    ? (<LinkOverlay href={playlistUri.current}><Button m="2">Open Playlist!</Button></LinkOverlay>)
+    ? (<Link href={playlistUri.current}><Button m="2">Open Playlist!</Button></Link>)
     : (<Button m="2" onClick={makePlaylist} isLoading={creatingPlaylist}>Make a playlist</Button>);
 };

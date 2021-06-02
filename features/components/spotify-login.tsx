@@ -8,28 +8,34 @@ interface SpotifyHashSuccessParams {
   access_token: string;
   expires_in: string;
   token_bearer: string;
+  state: string;
 }
 /* eslint-enable camelcase */
 
 interface SpotifyHashErrorParams {
   error: string;
+  state: string;
 }
 
 type SpotifyHashParams = SpotifyHashSuccessParams | SpotifyHashErrorParams;
 
-const isSpotifyhashErrorParams = (
+const isSpotifySuccessParams = (
   params: SpotifyHashParams
-): params is SpotifyHashErrorParams =>
-  (params as SpotifyHashErrorParams).error !== undefined;
+): params is SpotifyHashSuccessParams =>
+  (params as SpotifyHashSuccessParams).access_token !== undefined;
+
+const STATE_KEY = "spotify_login_state";
 
 const generateSpotifyUrl = () => {
-  // TODO: probably should add a state var
+  const state = Math.floor(Math.random() * 10000000).toString();
+  window.localStorage.setItem(STATE_KEY, state);
   const params = new URLSearchParams({
     client_id: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID || '',
     response_type: 'token',
-    redirect_uri: window.location.href.split('?')[0],
+    redirect_uri: `${window.location.protocol}//${window.location.host}${window.location.pathname}`,
     scope:
       'user-top-read user-read-private user-read-email playlist-modify-public playlist-modify-private',
+    state,
   });
   return `https://accounts.spotify.com/authorize?${params.toString()}`;
 };
@@ -48,9 +54,13 @@ export const SpotifyLogin = () => {
             [split[0]]: split[1],
           };
         }, {}) as SpotifyHashParams;
-      if (!isSpotifyhashErrorParams(params)) {
-        window.history.pushState('', document.title, window.location.pathname);
-        context.setAccessToken(params.access_token);
+      if (isSpotifySuccessParams(params)) {
+        if (window.localStorage.getItem("spotify_login_state") === params.state) {
+          window.localStorage.removeItem(STATE_KEY);
+          window.history.pushState('', document.title, window.location.pathname);
+          context.setAccessToken(params.access_token);
+        }
+        // TODO: handle error cases
       }
     }
   }, []);

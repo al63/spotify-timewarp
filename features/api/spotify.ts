@@ -29,6 +29,7 @@ interface SpotifyTrack {
   name: string;
   external_urls: SpotifyExternalUrls;
   uri: string;
+  preview_url: string;
 }
 
 interface SpotifyTracksResponse {
@@ -54,6 +55,7 @@ export interface Track {
     url: string;
     uri: string;
     name: string;
+    previewUrl: string;
   };
   album: {
     name: string;
@@ -108,6 +110,7 @@ const getTracks = async (
       url: item.external_urls.spotify,
       uri: item.uri,
       name: item.name,
+      previewUrl: item.preview_url,
     },
     album: {
       name: item.album.name,

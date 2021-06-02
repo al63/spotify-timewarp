@@ -24,7 +24,7 @@ const isSpotifySuccessParams = (
 ): params is SpotifyHashSuccessParams =>
   (params as SpotifyHashSuccessParams).access_token !== undefined;
 
-const STATE_KEY = "spotify_login_state";
+const STATE_KEY = 'spotify_login_state';
 
 const generateSpotifyUrl = () => {
   const state = Math.floor(Math.random() * 10000000).toString();
@@ -55,9 +55,15 @@ export const SpotifyLogin = () => {
           };
         }, {}) as SpotifyHashParams;
       if (isSpotifySuccessParams(params)) {
-        if (window.localStorage.getItem("spotify_login_state") === params.state) {
+        if (
+          window.localStorage.getItem('spotify_login_state') === params.state
+        ) {
           window.localStorage.removeItem(STATE_KEY);
-          window.history.pushState('', document.title, window.location.pathname);
+          window.history.pushState(
+            '',
+            document.title,
+            window.location.pathname
+          );
           context.setAccessToken(params.access_token);
         }
         // TODO: handle error cases

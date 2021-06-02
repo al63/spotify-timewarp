@@ -6,8 +6,8 @@ import {
   Flex,
   Heading,
 } from '@chakra-ui/react';
-import { SpotifyUser } from '../../pages/api/spotify';
-import { SpotifyLogin } from '../spotify-login';
+import { SpotifyUser } from '../api/spotify';
+import { SpotifyLogin } from '../components/spotify-login';
 
 interface Props {
   loading: boolean;

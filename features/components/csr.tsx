@@ -10,7 +10,7 @@ const CSR = (props: Props) => {
   useEffect(() => {
     setIsClient(true);
   }, []);
-  return <>{isClient && onClient()}</>
+  return <>{isClient && onClient()}</>;
 };
 
 export { CSR };

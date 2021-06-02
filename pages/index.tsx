@@ -1,10 +1,15 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Head from 'next/head';
-import { SpotifyUser, SpotifyData, Track } from './api/spotify';
+import {
+  SpotifyUser,
+  Track,
+  getUserInfo,
+  getTracks,
+} from '../features/api/spotify';
 import { useSpotifyContext } from '../features/spotify-context';
 import { SplashScreen } from '../features/screens/splash';
 import { TracksScreen } from '../features/screens/tracks';
-import { Footer } from '../features/footer';
+import { Footer } from '../features/components/footer';
 
 const Index = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -29,10 +34,11 @@ const Index = () => {
 
     (async () => {
       setLoading(true);
-      const res = await fetch(`/api/spotify?token=${accessToken}`);
-      const json = (await res.json()) as SpotifyData;
-      setUser(json.user);
-      setTracks(json.tracks);
+      // TODO: error handling
+      const spotifyUser = await getUserInfo(accessToken);
+      const spotifyTracks = await getTracks(accessToken, 12);
+      setUser(spotifyUser);
+      setTracks(spotifyTracks);
       setLoading(false);
     })();
   }, [accessToken]);

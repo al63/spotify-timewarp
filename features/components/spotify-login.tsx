@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { LinkBox, LinkOverlay, Button } from '@chakra-ui/react';
-import { useSpotifyContext } from './spotify-context';
+import { useSpotifyContext } from '../spotify-context';
 import { CSR } from './csr';
 
 /* eslint-disable camelcase */

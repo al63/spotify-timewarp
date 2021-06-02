@@ -1,8 +1,8 @@
 import { forwardRef } from 'react';
 import { Box, Container, Heading } from '@chakra-ui/react';
-import { TrackList } from '../track-list';
-import { SpotifyUser, Track } from '../../pages/api/spotify';
-import { CreatePlaylistButton } from '../create-playlist';
+import { TrackList } from '../components/track-list';
+import { SpotifyUser, Track } from '../api/spotify';
+import { CreatePlaylistButton } from '../components/create-playlist';
 
 interface Props {
   loading: boolean;

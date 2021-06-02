@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { Box, Link, Flex, Image } from '@chakra-ui/react';
 
-import { Track } from '../pages/api/spotify';
+import { Track } from '../api/spotify';
 
 interface Props {
   tracks: Track[] | null;

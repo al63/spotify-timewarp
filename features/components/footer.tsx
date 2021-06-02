@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { Center, Text, Link, Flex } from '@chakra-ui/react';
 
 const Footer = () => (
-  <Center bg="gray.500" textColor="white" py="4" flexDir="column">
+  <Center height="6rem" bg="gray.500" textColor="white" flexDir="column">
     <Text mb="2">
       Made by{' '}
       <Link

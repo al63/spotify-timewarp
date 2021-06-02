@@ -19,7 +19,12 @@ const EndScreen = forwardRef<HTMLDivElement | null, Props>((props, ref) => {
     return null;
   }
   return (
-    <Center minH="100vh" textColor="green.700" bg="yellow.50" ref={ref}>
+    <Center
+      minH="calc(100vh - 6rem)"
+      textColor="green.700"
+      bg="yellow.50"
+      ref={ref}
+    >
       <Container maxW="container.xl">
         <Flex direction="column" align="center">
           <Heading as="h1" size="xl" textAlign="center" mb="8">

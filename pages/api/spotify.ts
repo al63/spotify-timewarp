@@ -122,7 +122,7 @@ export default async (
   }
 
   const userData = await getUserInfo(req.query.token);
-  const trackData = await getTracks(req.query.token, 10);
+  const trackData = await getTracks(req.query.token, 12);
   return res.status(200).json({
     user: userData,
     tracks: trackData,

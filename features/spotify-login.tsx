@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Link } from '@chakra-ui/react';
+import { LinkBox, LinkOverlay, Button } from '@chakra-ui/react';
 import { useSpotifyContext } from './spotify-context';
 import { CSR } from './csr';
 
@@ -58,7 +58,11 @@ export const SpotifyLogin = () => {
   return (
     <CSR
       onClient={() => (
-        <Link href={generateSpotifyUrl()}>Log in with Spotify</Link>
+        <LinkBox>
+          <LinkOverlay href={generateSpotifyUrl()}>
+            <Button>Log in with Spotify</Button>
+          </LinkOverlay>
+        </LinkBox>
       )}
     />
   );

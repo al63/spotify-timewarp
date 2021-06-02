@@ -72,11 +72,11 @@ export const CreatePlaylistButton = (props: Props) => {
 
   return playlistCreated ? (
     <Link href={playlistUri.current}>
-      <Button m="2">Open Playlist!</Button>
+      <Button>Open Playlist on Spotify</Button>
     </Link>
   ) : (
-    <Button m="2" onClick={makePlaylist} isLoading={creatingPlaylist}>
-      Make a playlist
+    <Button onClick={makePlaylist} isLoading={creatingPlaylist}>
+      Make a playlist on Spotify
     </Button>
   );
 };

@@ -1,48 +1,43 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Head from 'next/head';
-import { Container, Flex, Heading } from '@chakra-ui/react';
 import { SpotifyUser, SpotifyData, Track } from './api/spotify';
-import { SpotifyLogin } from '../features/spotify-login';
 import { useSpotifyContext } from '../features/spotify-context';
-import { TrackList } from '../features/track-list';
-import { CreatePlaylistButton } from '../features/create-playlist';
+import { SplashScreen } from '../features/screens/splash';
+import { TracksScreen } from '../features/screens/tracks';
+import { Footer } from '../features/footer';
 
 const Index = () => {
+  const [loading, setLoading] = useState<boolean>(false);
   const [tracks, setTracks] = useState<Track[] | null>(null);
   const [user, setUser] = useState<SpotifyUser | null>(null);
+  const tracksRef = useRef<HTMLDivElement | null>(null);
   const { accessToken } = useSpotifyContext();
+
+  const scrollTracksIntoView = () => {
+    if (tracks && !loading) {
+      tracksRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+  };
 
   useEffect(() => {
     if (!accessToken) {
       return;
     }
+
     (async () => {
+      setLoading(true);
       const res = await fetch(`/api/spotify?token=${accessToken}`);
       const json = (await res.json()) as SpotifyData;
       setUser(json.user);
       setTracks(json.tracks);
+      setLoading(false);
     })();
   }, [accessToken]);
 
-  let content = null;
-  if (accessToken) {
-    content = (
-      <>
-        <Heading as="h1" size="lg" mb="2">
-          Logged in as {user?.display_name}
-        </Heading>
-        <Heading size="sm">Your top songs for the past four weeks:</Heading>
-        {tracks && (
-          <>
-            <TrackList tracks={tracks} />
-            <CreatePlaylistButton tracks={tracks} userId={user?.id} />
-          </>
-        )}
-      </>
-    );
-  } else {
-    content = <SpotifyLogin />;
-  }
+  useLayoutEffect(scrollTracksIntoView, [tracks, loading]);
 
   return (
     <>
@@ -54,15 +49,18 @@ const Index = () => {
         />
       </Head>
 
-      <Container maxW="container.xl">
-        <Flex direction="column" align="center">
-          <Heading as="h1" size="xl" textAlign="center">
-            I make Spotify playlists based on your recent listening history.
-            Spotify Wrapped, but for the past month.
-          </Heading>
-        </Flex>
-        {content}
-      </Container>
+      <SplashScreen
+        loading={loading}
+        user={user}
+        onLoggedInClicked={scrollTracksIntoView}
+      />
+      <TracksScreen
+        loading={loading}
+        tracks={tracks}
+        user={user}
+        ref={tracksRef}
+      />
+      <Footer />
     </>
   );
 };

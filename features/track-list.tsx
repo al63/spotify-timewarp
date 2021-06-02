@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { UnorderedList, Link, ListItem } from '@chakra-ui/react';
+import { Box, Link, Flex, Image } from '@chakra-ui/react';
 
 import { Track } from '../pages/api/spotify';
 
@@ -17,7 +17,7 @@ const TrackList = (props: Props) => {
     const artistsList: ReactNode[] = [];
     track.artists.forEach((artist, idx) => {
       artistsList.push(
-        <Link key={artist.id} href={artist.uri}>
+        <Link key={artist.id} color="teal.700" href={artist.uri}>
           {artist.name}
         </Link>
       );
@@ -26,14 +26,24 @@ const TrackList = (props: Props) => {
       }
     });
 
+    const albumArt = track.album.art.sort((a, b) => a.width - b.width)[0].url;
+
     return (
-      <ListItem key={track.id}>
-        {artistsList} - <Link href={track.song.uri}>{track.song.name}</Link>
-      </ListItem>
+      <Box key={track.id} my="2">
+        <Flex align="center">
+          <Image boxSize="40px" src={albumArt} me="2" />
+          <Box>
+            {artistsList} -{' '}
+            <Link color="teal.700" href={track.song.uri}>
+              {track.song.name}
+            </Link>
+          </Box>
+        </Flex>
+      </Box>
     );
   });
 
-  return <UnorderedList>{trackList}</UnorderedList>;
+  return <>{trackList}</>;
 };
 
 export { TrackList };

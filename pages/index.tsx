@@ -1,25 +1,21 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Head from 'next/head';
-import {
-  SpotifyUser,
-  Track,
-  getUserInfo,
-  getTracks,
-} from '../features/api/spotify';
-import { useSpotifyContext } from '../features/spotify-context';
 import { SplashScreen } from '../features/screens/splash';
-import { TracksScreen } from '../features/screens/tracks';
+import { TracksState, TracksScreen } from '../features/screens/tracks';
 import { Footer } from '../features/components/footer';
+import { useSpotifyContext } from '../features/spotify-context';
+import { EndScreen } from '../features/screens/end';
+import { Playlist } from '../features/api/spotify';
 
 const Index = () => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [tracks, setTracks] = useState<Track[] | null>(null);
-  const [user, setUser] = useState<SpotifyUser | null>(null);
   const tracksRef = useRef<HTMLDivElement | null>(null);
-  const { accessToken } = useSpotifyContext();
+  const endRef = useRef<HTMLDivElement | null>(null);
+  const [playlist, setPlaylist] = useState<Playlist | null>(null);
+  const [tracksState, setTracksState] = useState<TracksState>(null);
+  const { user } = useSpotifyContext();
 
   const scrollTracksIntoView = () => {
-    if (tracks && !loading) {
+    if (tracksState === 'loaded' && user) {
       tracksRef.current?.scrollIntoView({
         behavior: 'smooth',
         block: 'start',
@@ -27,23 +23,17 @@ const Index = () => {
     }
   };
 
-  useEffect(() => {
-    if (!accessToken) {
-      return;
+  const scrollEndIntoView = () => {
+    if (playlist) {
+      endRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
     }
+  };
 
-    (async () => {
-      setLoading(true);
-      // TODO: error handling
-      const spotifyUser = await getUserInfo(accessToken);
-      const spotifyTracks = await getTracks(accessToken, 12);
-      setUser(spotifyUser);
-      setTracks(spotifyTracks);
-      setLoading(false);
-    })();
-  }, [accessToken]);
-
-  useLayoutEffect(scrollTracksIntoView, [tracks, loading]);
+  useEffect(scrollTracksIntoView, [tracksState, user]);
+  useEffect(scrollEndIntoView, [playlist]);
 
   return (
     <>
@@ -56,16 +46,16 @@ const Index = () => {
       </Head>
 
       <SplashScreen
-        loading={loading}
-        user={user}
         onLoggedInClicked={scrollTracksIntoView}
+        tracksState={tracksState}
       />
       <TracksScreen
-        loading={loading}
-        tracks={tracks}
-        user={user}
+        onTracksState={setTracksState}
+        onPlaylistCreated={setPlaylist}
+        onCreatedPlaylistClicked={scrollEndIntoView}
         ref={tracksRef}
       />
+      <EndScreen playlist={playlist} ref={endRef} />
       <Footer />
     </>
   );

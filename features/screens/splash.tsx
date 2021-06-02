@@ -6,26 +6,28 @@ import {
   Flex,
   Heading,
 } from '@chakra-ui/react';
-import { SpotifyUser } from '../api/spotify';
 import { SpotifyLogin } from '../components/spotify-login';
+import { useSpotifyContext } from '../spotify-context';
+import { TracksState } from './tracks';
 
 interface Props {
-  loading: boolean;
-  user: SpotifyUser | null;
+  tracksState: TracksState;
   onLoggedInClicked: () => void;
 }
 
-const SplashScreen = ({ loading, user, onLoggedInClicked }: Props) => {
+const SplashScreen = ({ tracksState, onLoggedInClicked }: Props) => {
+  const { user } = useSpotifyContext();
   let content;
-  if (user || loading) {
+  if (tracksState) {
+    const text = user ? `Logged in as  ${user.display_name}` : 'Logged in';
     content = (
       <Button
         size="lg"
         onClick={onLoggedInClicked}
-        isLoading={loading}
+        isLoading={tracksState === 'loading'}
         loadingText="Loading..."
       >
-        Logged in as {user?.display_name}
+        {text}
       </Button>
     );
   } else {
@@ -35,7 +37,7 @@ const SplashScreen = ({ loading, user, onLoggedInClicked }: Props) => {
   return (
     <Center minH="100vh" textColor="pink.400" bg="teal.50">
       <Container maxW="container.xl">
-        <Flex id="lol" direction="column" align="center">
+        <Flex direction="column" align="center">
           <Heading as="h1" size="xl" textAlign="center">
             I make Spotify playlists based on your recent listening history.
             Spotify Wrapped, but for the past month.

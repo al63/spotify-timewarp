@@ -1,48 +1,58 @@
 import { useState, useRef } from 'react';
-import { Link, Button } from '@chakra-ui/react';
-import { createPlaylist, Track } from '../api/spotify';
+import { Button } from '@chakra-ui/react';
+import { createPlaylist, Playlist, Track } from '../api/spotify';
 import { useSpotifyContext } from '../spotify-context';
 
 interface Props {
-  userId: string | null | undefined;
   tracks: Track[] | null;
+  onPlaylistCreated: (playlist: Playlist) => void;
+  onCreatedPlaylistClicked: () => void;
 }
 
 type PlaylistState = null | 'creating' | 'created';
 
-export const CreatePlaylistButton = (props: Props) => {
-  const { userId, tracks } = props;
+export const CreatePlaylistButton = ({
+  tracks,
+  onPlaylistCreated,
+  onCreatedPlaylistClicked,
+}: Props) => {
   const [playlistState, setPlaylistState] = useState<PlaylistState>(null);
   const playlistUri = useRef<string>('');
-  const { accessToken } = useSpotifyContext();
+  const { user, accessToken } = useSpotifyContext();
 
-  if (!userId || !tracks) {
+  if (!user || !tracks) {
     return null;
   }
 
   const makePlaylist = async () => {
-    if (!userId || !tracks || !accessToken) {
+    if (!user || !tracks || !accessToken) {
+      return;
+    }
+
+    if (playlistState === 'created') {
+      onCreatedPlaylistClicked();
       return;
     }
 
     setPlaylistState('creating');
     // TODO: error handling
-    const uri = await createPlaylist(accessToken, userId, tracks);
-    playlistUri.current = uri;
+    const playlist = await createPlaylist(accessToken, user.id, tracks);
+    playlistUri.current = playlist.uri;
     setPlaylistState('created');
+    onPlaylistCreated(playlist);
   };
 
-  return playlistState === 'created' ? (
-    <Link href={playlistUri.current}>
-      <Button size="lg">Open Playlist on Spotify</Button>
-    </Link>
-  ) : (
+  const text =
+    playlistState === 'created'
+      ? 'Created Playlist'
+      : 'Make a playlist on Spotify';
+  return (
     <Button
       size="lg"
       onClick={makePlaylist}
       isLoading={playlistState === 'creating'}
     >
-      Make a playlist on Spotify
+      {text}
     </Button>
   );
 };

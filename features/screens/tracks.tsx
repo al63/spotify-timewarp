@@ -1,17 +1,35 @@
-import { forwardRef } from 'react';
+import { useState, useEffect, forwardRef } from 'react';
 import { Box, Container, Heading } from '@chakra-ui/react';
 import { TrackList } from '../components/track-list';
-import { SpotifyUser, Track } from '../api/spotify';
+import { getTracks, Playlist, Track } from '../api/spotify';
 import { CreatePlaylistButton } from '../components/create-playlist';
+import { useSpotifyContext } from '../spotify-context';
+
+export type TracksState = null | 'loading' | 'loaded';
 
 interface Props {
-  loading: boolean;
-  tracks: Track[] | null;
-  user: SpotifyUser | null;
+  onTracksState: (state: TracksState) => void;
+  onPlaylistCreated: (playlist: Playlist) => void;
+  onCreatedPlaylistClicked: () => void;
 }
 
 const TracksScreen = forwardRef<HTMLDivElement | null, Props>((props, ref) => {
-  const { tracks, user } = props;
+  const [tracks, setTracks] = useState<Track[] | null>(null);
+  const { accessToken, user } = useSpotifyContext();
+
+  useEffect(() => {
+    if (!accessToken) {
+      return;
+    }
+
+    (async () => {
+      // TODO: error handling
+      props.onTracksState('loading');
+      const spotifyTracks = await getTracks(accessToken, 12);
+      setTracks(spotifyTracks);
+      props.onTracksState('loaded');
+    })();
+  }, [accessToken]);
 
   if (!tracks) {
     return null;
@@ -28,7 +46,11 @@ const TracksScreen = forwardRef<HTMLDivElement | null, Props>((props, ref) => {
           <>
             <TrackList tracks={tracks} />
             <Box my="4">
-              <CreatePlaylistButton tracks={tracks} userId={user?.id} />
+              <CreatePlaylistButton
+                tracks={tracks}
+                onPlaylistCreated={props.onPlaylistCreated}
+                onCreatedPlaylistClicked={props.onCreatedPlaylistClicked}
+              />
             </Box>
           </>
         )}

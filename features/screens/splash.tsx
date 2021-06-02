@@ -17,14 +17,17 @@ interface Props {
 
 const SplashScreen = ({ loading, user, onLoggedInClicked }: Props) => {
   let content;
-  if (user) {
+  if (user || loading) {
     content = (
-      <Button onClick={onLoggedInClicked}>
-        Logged in as {user.display_name}
+      <Button
+        size="lg"
+        onClick={onLoggedInClicked}
+        isLoading={loading}
+        loadingText="Loading..."
+      >
+        Logged in as {user?.display_name}
       </Button>
     );
-  } else if (loading) {
-    content = <Button>Loading...</Button>;
   } else {
     content = <SpotifyLogin />;
   }

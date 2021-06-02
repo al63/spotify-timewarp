@@ -60,7 +60,7 @@ export const SpotifyLogin = () => {
       onClient={() => (
         <LinkBox>
           <LinkOverlay href={generateSpotifyUrl()}>
-            <Button>Log in with Spotify</Button>
+            <Button size="lg">Log in with Spotify</Button>
           </LinkOverlay>
         </LinkBox>
       )}

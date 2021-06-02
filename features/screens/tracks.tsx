@@ -1,5 +1,5 @@
 import { useState, useEffect, forwardRef } from 'react';
-import { Box, Container, Heading } from '@chakra-ui/react';
+import { Box, Center, Container, Heading } from '@chakra-ui/react';
 import { TrackList } from '../components/track-list';
 import { getTracks, Playlist, Track } from '../api/spotify';
 import { CreatePlaylistButton } from '../components/create-playlist';
@@ -38,14 +38,16 @@ const TracksScreen = forwardRef<HTMLDivElement | null, Props>((props, ref) => {
   return (
     <Box minH="100vh" pt="4" textColor="teal.500" bg="purple.50" ref={ref}>
       <Container maxW="container.xl">
-        <Heading as="h1" size="lg" mb="2">
-          Hey {user?.display_name},
-        </Heading>
-        <Heading size="sm">Your top songs for the past four weeks:</Heading>
+        <Center>
+          <Heading as="h2" size="xl" mb="3">
+            Hey {user?.display_name}, here are your top songs of the past four
+            weeks
+          </Heading>
+        </Center>
         {tracks && (
           <>
             <TrackList tracks={tracks} />
-            <Box py="4">
+            <Box pt="3">
               <CreatePlaylistButton
                 tracks={tracks}
                 onPlaylistCreated={props.onPlaylistCreated}

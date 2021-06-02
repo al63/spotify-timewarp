@@ -44,7 +44,7 @@ const TrackList = (props: Props) => {
     return (
       <Box
         key={track.id}
-        p="2"
+        p="1"
         display="flex"
         alignItems="center"
         onMouseEnter={() => setAudio(track.song.previewUrl)}

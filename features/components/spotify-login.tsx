@@ -55,9 +55,7 @@ export const SpotifyLogin = () => {
           };
         }, {}) as SpotifyHashParams;
       if (isSpotifySuccessParams(params)) {
-        if (
-          window.localStorage.getItem('spotify_login_state') === params.state
-        ) {
+        if (window.localStorage.getItem(STATE_KEY) === params.state) {
           window.localStorage.removeItem(STATE_KEY);
           window.history.pushState(
             '',

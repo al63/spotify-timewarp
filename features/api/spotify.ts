@@ -41,6 +41,13 @@ export interface SpotifyUser {
   display_name: string;
   images: SpotifyImage[];
 }
+
+interface SpotifyPlaylist {
+  id: string;
+  external_urls: SpotifyExternalUrls;
+  name: string;
+  uri: string;
+}
 /* eslint-enable camelcase */
 
 export interface Track {
@@ -69,8 +76,10 @@ export interface SpotifyData {
 }
 
 export interface Playlist {
+  id: string;
   name: string;
   uri: string;
+  url: string;
 }
 
 const getUserInfo = async (accessToken: string): Promise<SpotifyUser> => {
@@ -144,7 +153,7 @@ const createPlaylist = async (
   if (!res.ok) {
     throw Error('Error creating playlist');
   }
-  const playlistJson = await res.json();
+  const playlistJson = (await res.json()) as SpotifyPlaylist;
   const tracksRes = await fetch(
     `https://api.spotify.com/v1/playlists/${playlistJson.id}/tracks`,
     {
@@ -163,8 +172,10 @@ const createPlaylist = async (
     // TODO: cleanup playlist
   }
   return {
-    name: playlistName,
+    id: playlistJson.id,
+    name: playlistJson.name,
     uri: playlistJson.uri,
+    url: playlistJson.external_urls.spotify,
   };
 };
 export { getUserInfo, getTracks, createPlaylist };

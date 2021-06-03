@@ -37,11 +37,12 @@ const TrackList = (props: Props) => {
     if (audioRef.current) {
       rampVolume(audioRef.current);
       audioRef.current.pause();
+      audioRef.current.load();
+
       if (audio) {
-        audioRef.current.load();
-        (() => {
+        (async () => {
           try {
-            audioRef.current.play();
+            await audioRef.current?.play();
           } catch (e) {
             // swallow because we dont actually care about async audio issues
           }

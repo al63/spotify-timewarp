@@ -14,7 +14,7 @@ const clearRamp = () => {
     clearInterval(rampId);
   }
   rampId = null;
-}
+};
 
 const rampVolume = (audio: HTMLAudioElement) => {
   clearRamp();
@@ -73,8 +73,7 @@ const TrackList = (props: Props) => {
     return (
       <Box
         key={track.id}
-        py="1"
-        px="2"
+        p="2"
         display="flex"
         alignItems="center"
         onMouseEnter={() => setAudio(track.song.previewUrl)}
@@ -83,7 +82,7 @@ const TrackList = (props: Props) => {
           background: 'purple.100',
         }}
       >
-        <Image boxSize="40px" src={albumArt} me="2" />
+        <Image boxSize="35px" src={albumArt} me="2" />
         <Box>
           {artistsList} -{' '}
           <Link color="teal.700" href={track.song.uri}>

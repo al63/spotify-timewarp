@@ -33,6 +33,7 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/jsx-filename-extension': [2, { 'extensions': ['.js', '.jsx', '.ts', '.tsx'] }],
+    'react/require-default-props': 'off',
     'import/extensions': 'off',
     'import/prefer-default-export': 'off',
     'jsx-a11y/media-has-caption': 'off',

@@ -11,7 +11,7 @@ interface Props {
 
 type PlaylistState = null | 'creating' | 'created';
 
-export const CreatePlaylistButton = ({
+const CreatePlaylistButton = ({
   tracks,
   onPlaylistCreated,
   onCreatedPlaylistClicked,
@@ -51,8 +51,11 @@ export const CreatePlaylistButton = ({
       size="lg"
       onClick={makePlaylist}
       isLoading={playlistState === 'creating'}
+      loadingText="Creating..."
     >
       {text}
     </Button>
   );
 };
+
+export { CreatePlaylistButton };

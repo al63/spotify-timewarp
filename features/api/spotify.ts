@@ -178,4 +178,5 @@ const createPlaylist = async (
     url: playlistJson.external_urls.spotify,
   };
 };
+
 export { getUserInfo, getTracks, createPlaylist };

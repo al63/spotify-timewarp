@@ -7,7 +7,6 @@ interface Props {
   tracks: Track[] | null;
 }
 
-/* eslint-disable no-param-reassign */
 let rampId: number | null = null;
 const clearRamp = () => {
   if (rampId) {
@@ -16,6 +15,7 @@ const clearRamp = () => {
   rampId = null;
 };
 
+/* eslint-disable no-param-reassign */
 const rampVolume = (audio: HTMLAudioElement) => {
   clearRamp();
   audio.volume = 0;

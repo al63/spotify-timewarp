@@ -40,7 +40,7 @@ const generateSpotifyUrl = () => {
   return `https://accounts.spotify.com/authorize?${params.toString()}`;
 };
 
-export const SpotifyLogin = () => {
+const SpotifyLogin = () => {
   const context = useSpotifyContext();
   useEffect(() => {
     if (window.location.hash) {
@@ -81,3 +81,5 @@ export const SpotifyLogin = () => {
     />
   );
 };
+
+export { SpotifyLogin };

@@ -7,6 +7,27 @@ interface Props {
   tracks: Track[] | null;
 }
 
+/* eslint-disable no-param-reassign */
+let rampId: number | null = null;
+const clearRamp = () => {
+  if (rampId) {
+    clearInterval(rampId);
+  }
+  rampId = null;
+}
+
+const rampVolume = (audio: HTMLAudioElement) => {
+  clearRamp();
+  audio.volume = 0;
+  rampId = window.setInterval(() => {
+    audio.volume = Math.min(audio.volume + 0.025, 0.75);
+    if (audio.volume === 0.75 && rampId) {
+      clearRamp();
+    }
+  }, 50);
+};
+/* eslint-enable no-param-reassign */
+
 const TrackList = (props: Props) => {
   const { tracks } = props;
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -14,12 +35,20 @@ const TrackList = (props: Props) => {
 
   useEffect(() => {
     if (audioRef.current) {
+      rampVolume(audioRef.current);
       audioRef.current.pause();
-      audioRef.current.load();
       if (audio) {
-        audioRef.current.play();
+        audioRef.current.load();
+        (() => {
+          try {
+            audioRef.current.play();
+          } catch (e) {
+            // swallow because we dont actually care about async audio issues
+          }
+        })();
       }
     }
+    return clearRamp;
   }, [audio]);
 
   if (!tracks) {

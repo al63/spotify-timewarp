@@ -41,7 +41,7 @@ const TracksScreen = forwardRef<HTMLDivElement | null, Props>((props, ref) => {
         <Center>
           <Heading as="h2" size="xl" mb="3">
             Hey {user?.display_name}, here are your top songs of the past four
-            weeks
+            weeks.
           </Heading>
         </Center>
         {tracks && (

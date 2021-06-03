@@ -1,16 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ReactElement } from 'react';
 
 interface Props {
-  onClient: () => void;
+  onClient: () => ReactElement;
+  placeHolder?: ReactElement;
 }
 
-const CSR = (props: Props) => {
-  const { onClient } = props;
+const CSR = ({ onClient, placeHolder }: Props) => {
   const [isClient, setIsClient] = useState<boolean>(false);
   useEffect(() => {
     setIsClient(true);
   }, []);
-  return <>{isClient && onClient()}</>;
+
+  return isClient ? onClient() : placeHolder || null;
 };
 
 export { CSR };

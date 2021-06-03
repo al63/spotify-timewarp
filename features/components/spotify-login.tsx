@@ -69,15 +69,15 @@ export const SpotifyLogin = () => {
     }
   }, []);
 
+  const button = <Button size="lg">Log in with Spotify</Button>;
   return (
     <CSR
       onClient={() => (
         <LinkBox>
-          <LinkOverlay href={generateSpotifyUrl()}>
-            <Button size="lg">Log in with Spotify</Button>
-          </LinkOverlay>
+          <LinkOverlay href={generateSpotifyUrl()}>{button}</LinkOverlay>
         </LinkBox>
       )}
+      placeHolder={button}
     />
   );
 };

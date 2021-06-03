@@ -1,5 +1,5 @@
 import { useState, useEffect, forwardRef } from 'react';
-import { Center, Container, Heading } from '@chakra-ui/react';
+import { Box, Center, Container, Heading } from '@chakra-ui/react';
 import { TrackList } from '../components/track-list';
 import { getTracks, Playlist, Track } from '../api/spotify';
 import { CreatePlaylistButton } from '../components/create-playlist';
@@ -36,7 +36,7 @@ const TracksScreen = forwardRef<HTMLDivElement | null, Props>((props, ref) => {
   }
 
   return (
-    <Center minH="100vh" pt="4" textColor="teal.500" bg="purple.50" ref={ref}>
+    <Box minH="100vh" pt="4" textColor="teal.500" bg="purple.50" ref={ref}>
       <Container maxW="container.xl">
         <Heading as="h2" size="xl" mb="3">
           Hey {user?.display_name}, here are your top songs of the past four
@@ -55,7 +55,7 @@ const TracksScreen = forwardRef<HTMLDivElement | null, Props>((props, ref) => {
           </>
         )}
       </Container>
-    </Center>
+    </Box>
   );
 });
 

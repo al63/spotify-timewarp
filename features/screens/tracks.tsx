@@ -45,7 +45,7 @@ const TracksScreen = forwardRef<HTMLDivElement | null, Props>((props, ref) => {
         {tracks && (
           <>
             <TrackList tracks={tracks} />
-            <Center pb="2">
+            <Center pb="4">
               <CreatePlaylistButton
                 tracks={tracks}
                 onPlaylistCreated={props.onPlaylistCreated}

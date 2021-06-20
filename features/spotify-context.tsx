@@ -1,4 +1,11 @@
-import { FC, createContext, useState, useContext, useEffect } from 'react';
+import {
+  FC,
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+  useMemo,
+} from 'react';
 import { getUserInfo, SpotifyUser } from './api/spotify';
 
 interface SpotifyContextValues {
@@ -27,8 +34,17 @@ export const SpotifyProvider: FC = ({ children }) => {
     })();
   }, [accessToken]);
 
+  const value = useMemo(
+    () => ({
+      accessToken,
+      user,
+      setAccessToken,
+    }),
+    [accessToken, user, setAccessToken]
+  );
+
   return (
-    <SpotifyContext.Provider value={{ accessToken, setAccessToken, user }}>
+    <SpotifyContext.Provider value={value}>
       {children}
     </SpotifyContext.Provider>
   );
